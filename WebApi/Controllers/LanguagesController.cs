@@ -1,11 +1,11 @@
 ﻿using Application.Features.Languages.Commands.CreateLanguage;
 using Application.Features.Languages.Commands.DeleteLanguage;
+using Application.Features.Languages.Commands.UpdateLanguage;
 using Application.Features.Languages.Dtos;
 using Application.Features.Languages.Models;
 using Application.Features.Languages.Queries.GetByIdLanguage;
 using Application.Features.Languages.Queries.GetListLanguage;
 using Core.Application.Requests;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -41,8 +41,14 @@ namespace WebApi.Controllers
         {
             if(await Mediator.Send(deleteLanguageCommand)!= null)
                 return Ok();
-
             return BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateLanguageCommand updateLanguageCommand)
+        {
+            UpdatedLanguageDto result = await Mediator.Send(updateLanguageCommand);
+            return Ok(result);
         }
     }
 }
